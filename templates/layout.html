@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset = "UTF-8">
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+    <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename = 'css/reset.css') }}">
+    <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename = 'css/main.css') }}">
+    <script src = "{{ url_for('static', filename = 'fontawesome/js/all.js')}}"></script>
+    {% if title %}
+        <title>FDE | {{ title }}</title>
+    {% else %}
+        <title>FDE</title>
+    {% endif %}
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">FDE</h1>
+        <div class="nav">{{ nav.main_nav.render() }}</div>
+        <div class="content">{% block content %}<h1 class="content-title">{{ title }}</h1>{% endblock %}</div>
+    </div>
+    <script src ="{{ url_for('static', filename = 'js/main.js')}}"></script>
+</body>
