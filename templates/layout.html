@@ -15,9 +15,10 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="title">FDE</h1>
+        <div class="title"><h1 class="title-txt">FDE</h1><button id="nav-btn" class="title-btn"><i class="fas fa-bars"></i></button></div>
         <div class="nav">{{ nav.main_nav.render() }}</div>
         <div class="content">{% block content %}<h1 class="content-title">{{ title }}</h1>{% endblock %}</div>
+        <div class="footer"></div>
     </div>
     <script src ="{{ url_for('static', filename = 'js/main.js')}}"></script>
 </body>
