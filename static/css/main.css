@@ -1,0 +1,322 @@
+.title {
+    z-index: 2;
+    position: relative;
+    padding: 0 0.7em;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: #E0E0E0;
+    background: #455A64;
+} .title-txt {
+    display: block;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+} .title-btn {
+    margin-top: 3px;
+    display: block;
+    font-size: 1.6rem;
+    border: none;
+    outline: none;
+    color: #E0E0E0;
+    background: transparent;
+    cursor: pointer;
+}
+
+nav {
+    z-index: 1;
+    position: absolute;
+    top: calc(-100%);
+    left: 0;
+    width: 100%;
+    height: calc(100% - 50px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #E0E0E0;
+    transition: linear 0.2s;
+} nav ul {
+    list-style: none;
+    text-align: center;
+} nav ul li {
+    margin: 3em 0;
+} nav ul li a {
+    padding: 0.1em 0;
+    display: block;
+    width: 150px;
+    font-weight: 400;
+    font-size: 1rem;
+    border-radius: 3px;
+    color: #455A64;
+    background: transparent;
+    border: 2px solid #455A64;
+    cursor: pointer;
+    transition: 0.1s ease-in;
+} nav ul li a:hover {
+    color: #E0E0E0;
+    background: #455A64;
+    border: 2px solid #455A64;
+    transition: ease-out 0.1s;
+}
+
+nav ul li:last-child a {
+    color: #D50000;
+    background: #E0E0E0;
+    border: 2px solid #D50000;
+    transition: 0.1s ease-in;
+} nav ul li:last-child a:hover {
+    color: #E0E0E0;
+    background: #D50000;
+    border: 2px solid #D50000;
+    transition: ease-out 0.1s;
+}
+
+.content {
+    position: relative;
+    padding: 0.7em;
+    min-height: calc(100vh-50px);
+} .logo {
+    position: absolute;
+    top: 10%;
+    width: 125px;
+    height: 75px;
+}
+
+.login {
+    z-index: 3;
+    position: absolute;
+    top: -50px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background: #FFF;
+} .login form {
+    position: relative;
+    padding: 1em;
+    width: 80%;
+    max-width: 300px;
+    border-radius: 3px;
+    background: #FFF;
+    box-shadow: 0px 0px 15px #9E9E9E;
+} .login form h1 {
+    font-weight: 600;
+    font-size: 1.7rem;
+    margin-bottom: 1em ;
+    color: #212121;
+} .login form span {
+    padding-bottom: 0.3em;
+    display: block;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #455A64;
+} .login form span label {
+    color: #212121;
+} .login form span input {
+    margin-left: 0.5em;
+    width: 100%;
+    border: none;
+} .login form button {
+    padding: 0.5em 0;
+    width: 100%;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    color: #E0E0E0;
+    background: #455A64;
+    cursor: pointer;
+} .link {
+    position: absolute;
+    bottom: 27%;
+    font-size: 0.8rem;
+} .login-error {
+    padding: 0.1em;
+    position: absolute;
+    top: -3em;
+    width: 100%;
+    left: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    border-radius: 2px;
+    text-align: center;
+    color: #D50000;
+    background: #FFEBEE;
+    border: 1px solid #D50000;
+}
+
+.users {
+    margin: auto;
+    max-width: 500px;
+} .users .users-title {
+    margin-bottom: 0.7em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+} .users .users-title h1 {
+    width: fit-content;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #212121;
+} .users .users-title a {
+    cursor: pointer;
+} .users .search {
+    margin: 0.7em 0;
+} .users .search form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+} .users .search form label {
+    width: fit-content;
+    font-weight: 500;
+    font-size: 0.8rem;
+    margin-right: 0.5em;
+} .users .search form input {
+    width: 100%;
+    max-width: 250px;
+    padding: 0 0.3em;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+} .users .search form button {
+    margin-left: 0.7em;
+    padding: 0.1em 0.5em;
+    letter-spacing: 3px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+    border-radius: 2px;
+    color: #E0E0E0;
+    background: #455A64;
+    border: 1px solid #455A64;
+    transition: 0.1s ease-in;
+} .users .search form button:hover {
+    opacity: 0.9;
+    transition: ease-out 0.1s;
+} .users table {
+    width: 100%;
+    border-collapse: collapse;
+} .users table tr {
+    font-size: 0.6rem;
+} .users table tr th {
+    padding: 0.3em 0.5em;
+    text-align: left;
+    color: #E0E0E0;
+    background: #212121;
+} .users table tr td {
+    padding: 0.3em 0.5em;
+    text-align: left;
+} .users table tr td select {
+    width: 58px;
+    border: none;
+    background: transparent;
+} .users table tr td span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.users table tr:nth-child(odd) {background: #ECEFF1}
+.users table tr:nth-child(even) {background: #FFFFFF}
+
+.users .manage-user {
+    margin-top: 0.7em;
+    width: 100%;
+    background: #FFF;  
+} .users .manage-user span {
+    margin-bottom: 1em;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+} .users .manage-user span div {
+    width: 47%;
+    display: flex;
+    flex-direction: column;
+} .users .manage-user span div label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #212121;
+} .users .manage-user span div input {
+    padding: 0.1em 0.3em;
+    font-size: 0.8rem;
+} .users .manage-user span div select {
+    padding: 0.2em 0.3em;
+    font-size: 0.8rem;
+} .users .manage-user span #user-radio label {
+    margin-left: 0.3em;
+    display: inline-block;
+    font-weight: 400;
+    color: #0C4A6E;
+} .users .manage-user span #user-radio input {
+    display: inline-block;
+} .users .manage-user span #user-radio p {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #212121;
+} .users .manage-user button {
+    margin-top: 1em;
+    padding: 0.3em 0;
+    width: 100%;
+    border: none;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #E0E0E0;
+    background: #455A64;
+    border: 1px solid #455A64;
+    transition: 0.1s ease-in;
+} .users .manage-user button:hover {
+    opacity: 0.9;
+    transition: ease-out 0.1s;
+} .users .user-error {
+    margin-top: 1.3em;
+    padding: 0.1em 0;
+    display: block;
+    width: 100%;
+    font-size: 0.8rem;
+    border-radius: 2px;
+    text-align: center;
+    color: #D50000;
+    background: #FFEBEE;
+    border: 1px solid #D50000
+} .users .manage-user span a {
+    margin-top: 1em;
+    padding: 0.3em 0;
+    width: 47%;
+    border: none;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: #E0E0E0;
+} .users .manage-user span #btn-edit {
+    color: #0C4A6E;
+    border: 1px solid #0C4A6E;
+} .users .manage-user span #btn-edit:hover {
+    color: #E0E0E0;
+    background: #0C4A6E;
+    transition: 0.1s ease-in;
+} .users .manage-user span #btn-delete {
+    color: #D50000;
+    border: 1px solid #D50000;
+} .users .manage-user span #btn-delete:hover {
+    color: #E0E0E0;
+    background: #D50000;
+    transition: ease-out 0.1s;
+}

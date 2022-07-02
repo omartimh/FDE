@@ -1,0 +1,413 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="users">
+    <div class="users-title">
+        <h1>{{ title }}</h1>
+        {% if title == 'Manage Users' %}
+        <a href="{{ url_for('users', param = 'add_user') }}"><i class="fas fa-user-plus"></i></a>
+        {% else %}
+        <a href="{{ url_for('users', param = 'manage_users') }}"><i class="fas fa-chevron-left"></i> Back</a>
+        {% endif %}
+    </div>
+    <hr/>
+    {% if not title or title == 'Manage Users' %}
+    <div class="search">
+        <form action="{{ url_for('users', param = 'search_user') }}" method="POST">
+            <label for="nid">NID</label>
+            <input id="nid" name="nid" type="number" placeholder="X X X X X X X X X X X X X X" autocomplete="off">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <table>
+        <tr>
+            <th style="width: 30%;">National ID</th>
+            <th style="width: 30%;">Name</th>
+            <th style="width: 20%;">Type</th>
+            <th style="width: 20%;">Action</th>
+        </tr>
+        {% for user in users %}
+        {% if session['user'][0] == user[0] %}
+        <tr style="border: 1px solid #D50000; height: 25px;">
+        {% else %}
+        <tr>
+        {% endif %}
+            <td>{{ user[2] }}</td>
+            <td>{{ user[6] }}</td>
+            <td>
+                <select id="usertype" name="type" style="font-size:0.5rem;">
+                    {% if user[1] == 1 %}
+                    <option value="1" selected>Admin</option>
+                    {% else %}
+                    <option value="1">Admin</option>
+                    {% endif %}
+                    {% if user[1] == 2 %}
+                    <option value="2" selected>Examiner</option>
+                    {% else %}
+                    <option value="2">Examiner</option>
+                    {% endif %}
+                    {% if user[1] == 3 %}
+                    <option value="3" selected>Owner</option>
+                    {% else %}
+                    <option value="3">Owner</option>
+                    {% endif %}
+                </select>
+            </td>
+            <td>
+                <span>
+                    {% if session['user'][0] == user[0] %}
+                    <a style="color: #9E9E9E;"><i class="fas fa-eye"></i></a>
+                    <a style="color: #9E9E9E;"><i class="fas fa-edit"></i></a>
+                    <a style="color: #9E9E9E;"><i class="fas fa-trash"></i></a>
+                    {% else %}
+                    <a href="{{ url_for('users', param = 'view_user', id = user[0]) }}"><i class="fas fa-eye"></i></a>
+                    <a href="{{ url_for('users', param = 'edit_user', id = user[0]) }}" style="color: #FF9800;"><i class="fas fa-edit"></i></a>
+                    <a href="{{ url_for('users', param = 'delete_user', id = user[0]) }}" style="color: #D50000;"><i class="fas fa-trash"></i></a>
+                    {% endif %}
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% elif title == 'Add User' %}
+    {% if error %}
+    <p class="user-error">{{ error }}</p>
+    {% endif %}
+    <form class="manage-user" action="{{ url_for('users', param = 'add_user') }}" method="POST">
+        <span>
+            <div style="width: 57%;">
+                <label for="username">Username <i style="color: #D50000;">*</i></label>
+                {% if error %}
+                <input id="username" name="username" type="text" value="{{ params[2] }}">
+                {% else %}
+                <input id="username" name="username" type="text">
+                {% endif %}
+            </div>
+            <div style="width: 37%;">
+                <label for="utype">User Type <i style="color: #D50000;">*</i></label>
+                <select id="utype" name="utype">
+                {% if error %}
+                    {% if params[0] == '1' %}
+                        <option value="" disabled>Select Type</option>
+                        <option value="1" selected>Admin</option>
+                        <option value="2">Examiner</option>
+                        <option value="3">Owner</option>
+                    {% elif params[0] == '2' %}
+                        <option value="" disabled>Select Type</option>
+                        <option value="1">Admin</option>
+                        <option value="2" selected>Examiner</option>
+                        <option value="3">Owner</option>
+                    {% elif params[0] == '3' %}
+                        <option value="" disabled>Select Type</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Examiner</option>
+                        <option value="3" selected>Owner</option>
+                    {% else %}
+                        <option value="" selected disabled>Select Type</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Examiner</option>
+                        <option value="3">Owner</option>
+                    {% endif %}
+                {% else %}
+                    <option value="" selected disabled>Select Type</option>
+                    <option value="1">Admin</option>
+                    <option value="2">Examiner</option>
+                    <option value="3">Owner</option>
+                {% endif %}
+                </select>
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="email">Email <i style="color: #D50000;">*</i></label>
+                {% if error %}
+                <input id="email" name="email" type="email" value="{{ params[3] }}">
+                {% else %}
+                <input id="email" name="email" type="email">
+                {% endif %}
+            </div>
+        </span>
+        <span>
+            <div>
+                <label for="password">Password <i style="color: #D50000;">*</i></label>
+                <input id="password" name="password" type="password">
+            </div>
+            <div>
+                <label for="confirm_password">Confirm Password <i style="color: #D50000;">*</i></label>
+                <input id="confirm_password" name="confirm_password" type="password">
+            </div>
+        </span>
+        <span style="align-items: start; margin-bottom: 0;">
+            <div style="width: 67%;">
+                <label for="name">Name <i style="color: #D50000;">*</i></label>
+                {% if error %}
+                <input id="name" name="name" type="text" value="{{ params[5] }}">
+                {% else %}
+                <input id="name" name="name" type="text">
+                {% endif %}
+            </div>
+            <div id="user-radio" style="width: 27%;">
+                <p>Gender <i style="color: #D50000;">*</i></p>
+                {% if error %}
+                    {% if params[7] == 'false' %}
+                    <span style="justify-content: start; margin-bottom: 0;">
+                        <input id="male" name="gender" type="radio" value="false" checked>
+                        <label for="male">Male</label>
+                    </span>
+                    <span style="justify-content: start;">
+                        <input id="female" name="gender" type="radio" value="true">
+                        <label for="female">Female</label>
+                    </span>
+                    {% elif params[7] == 'true' %}
+                    <span style="justify-content: start; margin-bottom: 0;">
+                        <input id="male" name="gender" type="radio" value="false">
+                        <label for="male">Male</label>
+                    </span>
+                    <span style="justify-content: start;">
+                        <input id="female" name="gender" type="radio" value="true" checked>
+                        <label for="female">Female</label>
+                    </span>
+                    {% else %}
+                    <span style="justify-content: start; margin-bottom: 0;">
+                        <input id="male" name="gender" type="radio" value="false">
+                        <label for="male">Male</label>
+                    </span>
+                    <span style="justify-content: start;">
+                        <input id="female" name="gender" type="radio" value="true">
+                        <label for="female">Female</label>
+                    </span>
+                    {% endif %}
+                {% else %}
+                <span style="justify-content: start; margin-bottom: 0;">
+                    <input id="male" name="gender" type="radio" value="false">
+                    <label for="male">Male</label>
+                </span>
+                <span style="justify-content: start;">
+                    <input id="female" name="gender" type="radio" value="true">
+                    <label for="female">Female</label>
+                </span>
+                {% endif %}
+            </div>
+        </span>
+        <span>
+            <div>
+                <label for="phone">Phone <i style="color: #D50000;">*</i></label>
+                {% if error %}
+                <input id="phone" name="phone" type="number" value="{{ params[6] }}">
+                {% else %}
+                <input id="phone" name="phone" type="number">
+                {% endif %}
+            </div>
+            <div>
+                <label for="dob">Date of Birth <i style="color: #D50000;">*</i></label>
+                {% if error %}
+                <input id="dob" name="dob" type="date" value="{{ params[8] }}">
+                {% else %}
+                <input id="dob" name="dob" type="date">
+                {% endif %}
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="nid">National ID <i style="color: #D50000;">*</i></label>
+                {% if error %}
+                <input id="nid" name="nid" type="number" value="{{ params[1] }}">
+                {% else %}
+                <input id="nid" name="nid" type="number">
+                {% endif %}
+            </div>
+        </span>
+        <button type="submit">Submit</button>
+    </form>
+    {% elif title == 'View User' %}
+    <form class="manage-user" action="{{ url_for('users', param = 'add_user') }}" method="POST">
+        <span>
+            <div style="width: 57%;">
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" value="{{ params[3] }}" disabled>
+            </div>
+            <div style="width: 37%;">
+                <label for="utype">User Type</label>
+                <select id="utype" name="utype" disabled>
+                {% if params[1] == 1 %}
+                    <option value="" selected disabled>Select Type</option>
+                    <option value="1" selected>Admin</option>
+                    <option value="2">Examiner</option>
+                    <option value="3">Owner</option>
+                {% elif params[1] == 2 %}
+                    <option value="" selected disabled>Select Type</option>
+                    <option value="1">Admin</option>
+                    <option value="2" selected>Examiner</option>
+                    <option value="3">Owner</option>
+                {% elif params[1] == 3 %}
+                    <option value="" selected disabled>Select Type</option>
+                    <option value="1">Admin</option>
+                    <option value="2">Examiner</option>
+                    <option value="3" selected>Owner</option>
+                    {% endif %}
+                </select>
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" value="{{ params[4] }}" disabled>
+            </div>
+        </span>
+        <span>
+            <div>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" value="{{ params[5] }}" disabled>
+            </div>
+            <div>
+                <label for="confirm_password">Confirm Password</label>
+                <input id="confirm_password" name="confirm_password" type="password" value="{{ params[5] }}" disabled>
+            </div>
+        </span>
+        <span style="align-items: start; margin-bottom: 0;">
+            <div style="width: 67%;">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" value="{{ params[6] }}" disabled>
+            </div>
+            <div id="user-radio" style="width: 27%;">
+                <p>Gender</p>
+                {% if params[8] == false %}
+                <span style="justify-content: start; margin-bottom: 0;">
+                    <input id="male" name="gender" type="radio" value="false" checked disabled>
+                    <label for="male">Male</label>
+                </span>
+                <span style="justify-content: start;">
+                    <input id="female" name="gender" type="radio" value="true" disabled>
+                    <label for="female">Female</label>
+                </span>
+                {% elif params[8] == true %}
+                <span style="justify-content: start; margin-bottom: 0;">
+                    <input id="male" name="gender" type="radio" value="false" disabled>
+                    <label for="male">Male</label>
+                </span>
+                <span style="justify-content: start;">
+                    <input id="female" name="gender" type="radio" value="true" checked disabled>
+                    <label for="female">Female</label>
+                </span>
+                {% endif %}
+            </div>
+        </span>
+        <span>
+            <div>
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="number" value="{{ params[7] }}" disabled>
+            </div>
+            <div>
+                <label for="dob">Date of Birth</label>
+                <input id="dob" name="dob" type="date" value="{{ params[9] }}" disabled>
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="nid">National ID</label>
+                <input id="nid" name="nid" type="number" value="{{ params[2] }}" disabled>
+            </div>
+        </span>
+        <span>
+            <a id="btn-edit" href="{{ url_for('users', param = 'edit_user', id = params[0]) }}">Edit</a>
+            <a id="btn-delete" href="{{ url_for('users', param = 'delete_user', id = params[0]) }}">Delete</a>
+        </span>
+    </form>
+    {% elif title == 'Edit User' %}
+    {% if error %}
+    <p class="user-error">{{ error }}</p>
+    {% endif %}
+    <form class="manage-user" action="{{ url_for('users', param = 'edit_user') }}" method="POST">
+        <input id="id" name="id" type="text" value="{{ params[0] }}" hidden>
+        <input id="last_username" name="last_username" type="text" value="{{ params[3] }}" hidden>
+        <span>
+            <div style="width: 57%;">
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" value="{{ params[3] }}">
+            </div>
+            <div style="width: 37%;">
+                <label for="utype">User Type</label>
+                <select id="utype" name="utype">
+                {% if params[1] == 1 %}
+                    <option value="" selected disabled>Select Type</option>
+                    <option value="1" selected>Admin</option>
+                    <option value="2">Examiner</option>
+                    <option value="3">Owner</option>
+                {% elif params[1] == 2 %}
+                    <option value="" selected disabled>Select Type</option>
+                    <option value="1">Admin</option>
+                    <option value="2" selected>Examiner</option>
+                    <option value="3">Owner</option>
+                {% elif params[1] == 3 %}
+                    <option value="" selected disabled>Select Type</option>
+                    <option value="1">Admin</option>
+                    <option value="2">Examiner</option>
+                    <option value="3" selected>Owner</option>
+                    {% endif %}
+                </select>
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" value="{{ params[4] }}">
+            </div>
+        </span>
+        <span>
+            <div>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" value="{{ params[5] }}">
+            </div>
+            <div>
+                <label for="confirm_password">Confirm Password</label>
+                <input id="confirm_password" name="confirm_password" type="password" value="{{ params[5] }}">
+            </div>
+        </span>
+        <span style="align-items: start; margin-bottom: 0;">
+            <div style="width: 67%;">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" value="{{ params[6] }}">
+            </div>
+            <div id="user-radio" style="width: 27%;">
+                <p>Gender</p>
+                {% if params[8] == false %}
+                <span style="justify-content: start; margin-bottom: 0;">
+                    <input id="male" name="gender" type="radio" value="false" checked>
+                    <label for="male">Male</label>
+                </span>
+                <span style="justify-content: start;">
+                    <input id="female" name="gender" type="radio" value="true">
+                    <label for="female">Female</label>
+                </span>
+                {% elif params[8] == true %}
+                <span style="justify-content: start; margin-bottom: 0;">
+                    <input id="male" name="gender" type="radio" value="false">
+                    <label for="male">Male</label>
+                </span>
+                <span style="justify-content: start;">
+                    <input id="female" name="gender" type="radio" value="true" checked>
+                    <label for="female">Female</label>
+                </span>
+                {% endif %}
+            </div>
+        </span>
+        <span>
+            <div>
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="number" value="{{ params[7] }}">
+            </div>
+            <div>
+                <label for="dob">Date of Birth</label>
+                <input id="dob" name="dob" type="date" value="{{ params[9] }}">
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="nid">National ID</label>
+                <input id="nid" name="nid" type="number" value="{{ params[2] }}">
+            </div>
+        </span>
+        <button type="submit">Update</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock content %}

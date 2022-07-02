@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="documents">
+    {% if title == 'Classification Setup' %}
+        <form action="{{ url_for('documents') }}" method="POST" enctype="multipart/form-data">
+            <label for="model">Model Classifier</label>
+            <select id="model" name="model">
+                <option value="" selected disabled>Select</option>
+                <option value="2dcnn">2DCNN</option>
+                <option value="vgg16">VGG16</option>
+                <option value="resnet50">ResNet50</option>
+                <option value="inceptionv3">InceptionV3</option>
+                <option value="xception">Xception</option>
+            </select>
+            <label for="file">File</label>
+            <input id="file" name="file" type="file">
+            <button type="submit">Submit</button>
+        </form>
+    {% elif title == 'Classification Result' %}
+        <h1>{{ result }}</h1>
+    {% endif %}
+</div>
+{% endblock content %}
