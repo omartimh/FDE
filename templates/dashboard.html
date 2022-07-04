@@ -1,7 +1,40 @@
 {% extends 'layout.html' %}
 {% block content %}
 <div class="dashboard">
-    <h1>Dashboard</h1>
+    <h1 class="db-title">Overview</h1>
+    <div class="cards">
+        <span class="card-row">
+            <div class="card-col">
+                <h3 class="card-title">5273</h3>
+                <p class="card-text">Total Predictions</p>
+                <img src="static/img/db1.svg" alt="db1" width="75" height="75">
+            </div>
+            <div class="card-col">
+                <h3 class="card-title">3518</h3>
+                <p class="card-text">Verified Signatures</p>
+                <img src="static/img/db2.svg" alt="db2" width="75" height="75">
+            </div>
+        </span>
+        <span class="card-row">
+            <div class="card-col">
+                <h3 class="card-title">3854</h3>
+                <p class="card-text">Genuine Signatures</p>
+                <img src="static/img/db3.svg" alt="db3" width="75" height="75">
+            </div>
+            <div class="card-col">
+                <h3 class="card-title">1529</h3>
+                <p class="card-text">Forged Signatures</p>
+                <img src="static/img/db4.svg" alt="db4" width="75" height="75">
+            </div>
+        </span>
+    </div>
+    <a class="btn-doc" href="">
+        <span>
+            <p>Verify handwritten signatures inside documents.</p>
+            <h3>Upload Document <i class="fas fa-external-link-alt"></i></h3>
+        </span>
+        <img src="static/img/db5.svg" alt="db5" width="75" height="75">
+    </a>
 </div>
 {% endblock content %}
 {% block javascripts %}{% endblock javascripts %}
