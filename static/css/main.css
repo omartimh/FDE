@@ -78,6 +78,20 @@ nav ul li:last-child a {
     position: relative;
     padding: 0.7em;
     min-height: calc(100vh-50px);
+} .content-title {
+    margin-bottom: 0.7em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+} .content-title h1 {
+    width: fit-content;
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #212121;
+} .content-title a {
+    cursor: pointer;
 } .logo {
     position: absolute;
     top: 10%;
@@ -152,23 +166,22 @@ nav ul li:last-child a {
     border: 1px solid #D50000;
 }
 
+.form-error {
+    margin-top: 1.3em;
+    padding: 0.1em 0;
+    display: block;
+    width: 100%;
+    font-size: 0.8rem;
+    border-radius: 2px;
+    text-align: center;
+    color: #D50000;
+    background: #FFEBEE;
+    border: 1px solid #D50000
+}
+
 .users {
     margin: auto;
     max-width: 500px;
-} .users .users-title {
-    margin-bottom: 0.7em;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-} .users .users-title h1 {
-    width: fit-content;
-    display: inline-block;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #212121;
-} .users .users-title a {
-    cursor: pointer;
 } .users .search {
     margin: 0.7em 0;
 } .users .search form {
@@ -282,17 +295,6 @@ nav ul li:last-child a {
 } .users .manage-user button:hover {
     opacity: 0.9;
     transition: ease-out 0.1s;
-} .users .user-error {
-    margin-top: 1.3em;
-    padding: 0.1em 0;
-    display: block;
-    width: 100%;
-    font-size: 0.8rem;
-    border-radius: 2px;
-    text-align: center;
-    color: #D50000;
-    background: #FFEBEE;
-    border: 1px solid #D50000
 } .users .manage-user span a {
     margin-top: 1em;
     padding: 0.3em 0;
@@ -319,4 +321,121 @@ nav ul li:last-child a {
     color: #E0E0E0;
     background: #D50000;
     transition: ease-out 0.1s;
+}
+
+.documents {
+    margin: auto;
+    max-width: 500px;
+} .documents table {
+    margin-top: 0.7em;
+    width: 100%;
+    border-collapse: collapse;
+} .documents table tr {
+    font-size: 0.6rem;
+} .documents table tr th {
+    padding: 0.3em 0.5em;
+    text-align: left;
+    color: #E0E0E0;
+    background: #212121;
+} .documents table tr td {
+    padding: 0.3em 0.5em;
+    text-align: left;
+}
+
+.documents table tr:nth-child(odd) {background: #ECEFF1}
+.documents table tr:nth-child(even) {background: #FFFFFF}
+
+.documents .manage-document {
+    margin-top: 0.7em;
+    width: 100%;
+    background: #FFF;  
+} .documents .manage-document span {
+    margin-bottom: 1em;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+} .documents .manage-document span div {
+    width: 47%;
+    display: flex;
+    flex-direction: column;
+} .documents .manage-document span div label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #212121;
+} .documents .manage-document span div input {
+    padding: 0.1em 0.3em;
+    font-size: 0.8rem;
+} .documents .manage-document span div textarea {
+    padding: 0.1em 0.3em;
+    height: 75px;
+    resize: none;
+    font-size: 0.8rem;
+} .documents .manage-document span div img {
+    margin-top: 0.3em;
+    display: block;
+    border-radius: 2px 2px 0 0;
+    border: 1px ridge #212121;
+} .documents .manage-document span div .sig-txt {
+    padding: 0.3em 0;
+    text-align: center;
+    background: #E0E0E0;
+    border-radius: 0 0 2px 2px;
+    border: 1px solid #212121;
+    border-top: none;
+} .documents .manage-document button {
+    margin-top: 1em;
+    padding: 0.3em 0;
+    width: 100%;
+    border: none;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #E0E0E0;
+    background: #455A64;
+    border: 1px solid #455A64;
+    transition: 0.1s ease-in;
+} .documents .manage-document button:hover {
+    opacity: 0.9;
+    transition: ease-out 0.1s;
+}
+
+.documents .manage-document #table-details {
+    margin-top: 0;
+    border-radius: 5px;
+} .documents .manage-document #table-details tr {
+    border: 1px solid #CCC;
+} .documents .manage-document #table-details tr th {
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    color: #212121;
+    background: unset !important;
+}
+
+.documents .manage-document #table-details tr:nth-child(odd) {background: #F5F5F5;}
+.documents .manage-document #table-details tr:nth-child(even) {background: #E0E0E0;}
+
+#check {
+    padding: 0.01em 0.3em;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 2px;
+    display: none;
+} .bad {
+    color: #D50000 !important;
+    background: #FFEBEE !important;
+    border: 1px solid #D50000 !important;
+} .good {
+    color: #1B5E20 !important;
+    background: #E8F5E9 !important;
+    border: 1px solid #1B5E20 !important;
+}
+
+.round-loope {
+    border-radius: 50%;
+    border: 1px solid #CCC;
+    box-shadow: 0 0 15px #CCC;
 }

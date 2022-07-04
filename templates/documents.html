@@ -1,23 +1,185 @@
 {% extends 'layout.html' %}
 {% block content %}
 <div class="documents">
-    {% if title == 'Classification Setup' %}
-        <form action="{{ url_for('documents') }}" method="POST" enctype="multipart/form-data">
-            <label for="model">Model Classifier</label>
-            <select id="model" name="model">
-                <option value="" selected disabled>Select</option>
-                <option value="2dcnn">2DCNN</option>
-                <option value="vgg16">VGG16</option>
-                <option value="resnet50">ResNet50</option>
-                <option value="inceptionv3">InceptionV3</option>
-                <option value="xception">Xception</option>
-            </select>
-            <label for="file">File</label>
-            <input id="file" name="file" type="file">
-            <button type="submit">Submit</button>
-        </form>
-    {% elif title == 'Classification Result' %}
-        <h1>{{ result }}</h1>
+    <div class="content-title">
+        <h1>{{ title }}</h1>
+        {% if title == 'Manage Documents' %}
+        <a href="{{ url_for('documents', param = 'add_document') }}"><i class="fas fa-plus"></i></a>
+        {% else %}
+        <a href="{{ url_for('documents', param = 'manage_documents') }}"><i class="fas fa-chevron-left"></i> Back</a>
+        {% endif %}
+    </div>
+    <hr/>
+    {% if title == 'Manage Documents' %}
+    <table>
+        <tr>
+            <th>No.</th>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+        {% for param in params %}
+        <tr>
+            <td>{{ param[0] }}</td>
+            <td>{{ param[1] }}</td>
+            <td>{{ param[2] }}</td>
+            <td>{{ param[3] }}</td>
+            <td><a href="{{ url_for('documents', param = 'view_document', document_id = param[0]) }}"><i class="fas fa-file-signature"></i></a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% elif title == 'Add Document' %}
+    {% if error %}
+    <p class="form-error">{{ error }}</p>
+    {% endif %}
+    <form class="manage-document" action="{{ url_for('documents', param = 'add_document') }}" method="POST" enctype="multipart/form-data">
+        <span>
+            <div style="width: 100%;">
+                <label for="title">Document Title <i style="color: #D50000;">*</i></label>
+                <input id="title" name="title" type="text">
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="description">Description <i style="color: #D50000;">*</i></label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+        </span>
+        <span>
+            <div style="width: 80%;">
+                <label for="nid">Owner's <b>National ID <i style="color: #D50000;">*</i></b></label>
+                <input id="nid" name="nid" type="number">
+            </div>
+            <div style="width: 15%;">
+                <label for="check" style="color: #FFF;">Check</b></label>
+                <label id="check" class=""></label>
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="model">Classification Model <i style="color: #D50000;">*</i></label>
+                <select id="model" name="model">
+                    <option value="" selected disabled>Select</option>
+                    <option value="1">2DCNN</option>
+                    <option value="2">VGG16</option>
+                    <option value="3">ResNet50</option>
+                    <option value="4">InceptionV3</option>
+                    <option value="5">Xception</option>
+                </select>
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="signature_img">Signature Image <i style="color: #D50000;">*</i></label>
+                <input id="signature_img" name="signature_img" type="file">
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="signature_txt">Signature Text <i style="color: #D50000;">*</i></label>
+                <input id="signature_txt" name="signature_txt" type="text">
+            </div>
+        </span>
+        <button type="submit">Submit</button>
+    </form>
+    {% elif title == 'View Document' %}
+    <form class="manage-document">
+        <span>
+            <div style="width: 47%;">
+                <label for="created">Uploaded on</label>
+                <input id="created" name="created" type="date" value="{{ params[1] }}" disabled>
+            </div>
+            <div style="width: 47%;">
+                <label for="modified">Last Modified</label>
+                <input id="modified" name="modified" type="date" value="{{ params[2] }}" disabled>
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="title">Document Title</label>
+                <input id="title" name="title" type="text" value="{{ params[3] }}" disabled>
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" disabled>{{ params[4] }}</textarea>
+            </div>
+        </span>
+        <span>
+            <div style="width: 80%;">
+                <label for="nid">Owner's <b>National ID</b></label>
+                <input id="nid" name="nid" type="number" value="{{ params[5] }}" disabled>
+            </div>
+            <div style="width: 15%;">
+                <label for="check" style="color: #FFF;">Check</b></label>
+                <a class="btn-details" href="{{ url_for('users', param = 'view_user', id = params[6]) }}"><i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="img">Signature Image</label>
+                <img id="img" class="magnify" src="{{ 'static/signatures/' + params[7] }}" alt="img">
+                <p class="sig-txt" style="letter-spacing: 3px;">{{ params[8] }}</p>
+            </div>
+        </span>
+        <span>
+            <div style="width: 47%;">
+                <label for="model" style="font-weight: 400;">CNN Model Used</label>
+                <input id="model" name="model" type="text" value="{{ params[9] }}" disabled style="padding: 0.5em auto; font-weight: 600; border-radius: 2px; border: 2px solid #0C4A6E; color: #0C4A6E; background: #E0E0E0;">
+            </div>
+            <div style="width: 47%;">
+                <label for="prediction" style="font-weight: 400;">Prediction</label>
+                {% if params[10] != 'Genuine' %}
+                <input id="prediction" name="prediction" type="text" value="{{ params[10] + ' Signature' }}" disabled style="padding: 0.5em auto; font-weight: 600; border-radius: 2px; border: 2px solid #D50000; color: #D50000; background: #FFEBEE;">
+                {% else %}
+                <input id="prediction" name="prediction" type="text" value="{{ params[10] + ' Signature'}}" disabled style="padding: 0.5em auto; font-weight: 600; border-radius: 2px; border: 2px solid #1B5E20; color: #1B5E20; background: #E8F5E9;">
+                {% endif %}
+            </div>
+        </span>
+        <span>
+            <div style="width: 100%;">
+                <label for="details" style="font-weight: 400;">Prediction Details</label>
+                <table id="table-details">
+                    <tr style="font-size: 0.8rem;">
+                        <th>Genuinness Score</th>
+                        <td>{{ params[12] }}</td>
+                    </tr>
+                    <tr style="font-size: 0.8rem;">
+                        <th>Forgery Score</th>
+                        <td>{{ params[11] }}</td>
+                    </tr>
+                </table>
+            </div>
+        </span>
+        <span>
+            <div style="width: 60%;">
+                <label for="status">Status</label>
+                {% if params[13] == 'Pending' %}
+                <input id="status" name="status" type="text" value="{{ params[13] }}" disabled style="padding: 0.5em auto; font-weight: 600; border-radius: 2px; border: 2px solid #0C4A6E; color: #0C4A6E; background: #E0E0E0;">
+                {% elif params[13] == 'Incorrect' %}
+                <input id="status" name="status" type="text" value="{{ params[13] }}" disabled style="padding: 0.5em auto; font-weight: 600; border-radius: 2px; border: 2px solid #D50000; color: #D50000; background: #FFEBEE;">
+                {% elif params[13] == 'Verified' %}
+                <input id="status" name="status" type="text" value="{{ params[13] }}" disabled style="padding: 0.5em auto; font-weight: 600; border-radius: 2px; border: 2px solid #1B5E20; color: #1B5E20; background: #E8F5E9;">
+                {% endif %}
+            </div>
+            <div style="width: 37.5%; display: flex; flex-direction: row; align-items: center; justify-content: space-between; position: relative; top: 9.5px;">
+                {% if params[13] == 'Pending' %}
+                <a href="{{ url_for('documents', param = 'edit_status', document_id = params[0], details_id = params[14], status = 'Verified') }}" style="font-size: 0.9rem; display: inline-block; width: 47%; text-align: center; border-radius: 2px; border: 2px solid #1B5E20; color: #FFF; background: #1B5E20;"><i class="fas fa-check"></i></a>
+                <a href="{{ url_for('documents', param = 'edit_status', document_id = params[0], details_id = params[14], status = 'Incorrect') }}" style="font-size: 0.9rem; display: inline-block; width: 47%; text-align: center; border-radius: 2px; border: 2px solid #D50000; color: #FFF; background: #D50000;"><i class="fas fa-times"></i></a>
+                {% elif params[13] == 'Incorrect' %}
+                <a href="{{ url_for('documents', param = 'edit_status', document_id = params[0], details_id = params[14], status = 'Verified') }}" style="font-size: 0.9rem; display: inline-block; width: 47%; text-align: center; border-radius: 2px; border: 2px solid #1B5E20; color: #FFF; background: #1B5E20;"><i class="fas fa-check"></i></a>
+                <a style="font-size: 0.9rem; display: inline-block; width: 47%; text-align: center; border-radius: 2px; border: 2px solid #9E9E9E; color: #212121; background: #9E9E9E;"><i class="fas fa-times"></i></a>
+                {% elif params[13] == 'Verified' %}
+                <a style="font-size: 0.9rem; display: inline-block; width: 47%; text-align: center; border-radius: 2px; border: 2px solid #9E9E9E; color: #212121; background: #9E9E9E;"><i class="fas fa-check"></i></a>
+                <a href="{{ url_for('documents', param = 'edit_status', document_id = params[0], details_id = params[14], status = 'Incorrect') }}" style="font-size: 0.9rem; display: inline-block; width: 47%; text-align: center; border-radius: 2px; border: 2px solid #D50000; color: #FFF; background: #D50000;"><i class="fas fa-times"></i></a>
+                {% endif %}
+                
+            </div>
+        </span>
+    </form>
+    {% elif title == 'Edit Document' %}        
     {% endif %}
 </div>
 {% endblock content %}

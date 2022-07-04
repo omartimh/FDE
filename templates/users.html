@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 <div class="users">
-    <div class="users-title">
+    <div class="content-title">
         <h1>{{ title }}</h1>
         {% if title == 'Manage Users' %}
         <a href="{{ url_for('users', param = 'add_user') }}"><i class="fas fa-user-plus"></i></a>
@@ -70,7 +70,7 @@
     </table>
     {% elif title == 'Add User' %}
     {% if error %}
-    <p class="user-error">{{ error }}</p>
+    <p class="form-error">{{ error }}</p>
     {% endif %}
     <form class="manage-user" action="{{ url_for('users', param = 'add_user') }}" method="POST">
         <span>
@@ -314,7 +314,7 @@
     </form>
     {% elif title == 'Edit User' %}
     {% if error %}
-    <p class="user-error">{{ error }}</p>
+    <p class="form-error">{{ error }}</p>
     {% endif %}
     <form class="manage-user" action="{{ url_for('users', param = 'edit_user') }}" method="POST">
         <input id="id" name="id" type="text" value="{{ params[0] }}" hidden>

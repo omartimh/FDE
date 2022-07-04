@@ -4,9 +4,11 @@
     <meta charset = "UTF-8">
     <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
     <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename = 'css/reset.css') }}">
     <link rel = "stylesheet" type = "text/css" href = "{{ url_for('static', filename = 'css/main.css') }}">
     <script src = "{{ url_for('static', filename = 'fontawesome/js/all.js')}}"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     {% if title %}
         <title>FDE | {{ title }}</title>
     {% else %}
@@ -15,10 +17,32 @@
 </head>
 <body>
     <div class="container">
-        <div class="title"><h1 class="title-txt">FDE</h1><button id="nav-btn" class="title-btn"><i class="fas fa-bars"></i></button></div>
+        <div class="title"><h1 class="title-txt"><img src="static/img/logo.png" alt="logo" width="25px" height="25px" style="position:relative; top: 1px; border-radius: 50%; background: #E0E0E0;"> FDE</h1><button id="nav-btn" class="title-btn"><i class="fas fa-bars"></i></button></div>
         <div class="nav">{{ nav.main_nav.render() }}</div>
         <div class="content">{% block content %}<h1 class="content-title">{{ title }}</h1>{% endblock %}</div>
         <div class="footer"></div>
     </div>
     <script src ="{{ url_for('static', filename = 'js/main.js')}}"></script>
+    <script type="text/javascript" src="https://assets.website-files.com/5e2755779d8b8ea1d6373797/5ea88e92dce9b4b66f165490_zoom.txt"></script>
+    <script>
+        jQuery(function(){
+        
+        if(!$.fn.imagezoomsl){
+        
+            $('.msg').show();
+            return;
+            }
+            else $('.msg').hide();
+        
+            // plugin initialization
+            $('.magnify').imagezoomsl({
+        
+            innerzoommagnifier: true,
+            classmagnifier: "round-loope",
+            magnifiersize: [300, 300],
+            // disables the scrolling of the document with the mouse wheel when the cursor is over the image
+            disablewheel: false
+            });
+        });
+    </script>
 </body>

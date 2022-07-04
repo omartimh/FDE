@@ -52,6 +52,15 @@ class User():
             user = result[0]
         return user
     def get_user_by_nid(self, db, nid):
+        user = None
+        sql = '''SELECT * FROM users WHERE nid = %s AND deleted = %s'''
+        bindvars = [nid, False]
+        db.execute(sql, bindvars)
+        result = db.cursor.fetchall()
+        if result:
+            user = result[0]
+        return user
+    def get_users_by_nid(self, db, nid):
         sql = '''SELECT * FROM users WHERE nid = %s AND deleted = %s'''
         bindvars = [nid, False]
         db.execute(sql, bindvars)
@@ -83,17 +92,107 @@ class User():
         result = db.execute(sql, bindvars, True)
         return result
 
-class Signature():
-    def add_signature(self, db, params):
-        sql = '''INSERT INTO sessions (signature_img, created, modified, deleted)
-        VALUES (%s, %s, %s, %s)'''
-        bindvars = [params[0], params[1], params[2], params[3]]
-        db.execute(sql, bindvars, True)
+class Document():
     def predict_signature(self, model_name, file):
-        img = tf.io.read_file('signatures/' + file)
+        img = tf.io.read_file('static/signatures/' + file)
         img = tf.image.decode_jpeg(img, channels = 3)
         img = tf.image.resize(img, [320, 240])
         img = tf.expand_dims(img, axis = 0)
         model = tf.keras.models.load_model('cnn/' + model_name)
-        result = model.predict(img)[0]
-        return result
+        prediction = model.predict(img)[0]
+        return prediction
+    def get_all_documents(self, db):
+        sql = '''SELECT * FROM documents WHERE deleted = %s'''
+        bindvars = [False]
+        db.execute(sql, bindvars)
+        documents = db.cursor.fetchall()
+        return documents
+    def get_document_details(self, db, document_id):
+        sql = '''SELECT * FROM document_details WHERE document_id = %s'''
+        bindvars = [document_id]
+        db.execute(sql, bindvars)
+        details = db.cursor.fetchall()[0]
+        return details
+    def get_document_by_id(self, db, document_id):
+        sql = '''SELECT * FROM documents WHERE id = %s'''
+        bindvars = [document_id]
+        db.execute(sql, bindvars)
+        document = db.cursor.fetchall()[0]
+        return document
+    def get_title(self, db, document_id):
+        title = None
+        sql = '''SELECT * FROM documents WHERE id = %s'''
+        bindvars = [document_id]
+        db.execute(sql, bindvars)
+        result = db.cursor.fetchall()
+        if result:
+            title = result[0][1]
+        return title
+    def get_status_by_id(self, db, status_id):
+        status = None
+        sql = '''SELECT * FROM status WHERE id = %s'''
+        bindvars = [status_id]
+        db.execute(sql, bindvars)
+        result = db.cursor.fetchall()[0]
+        if result:
+            status = result[1]
+        return status
+    def get_status_by_name(self, db, status):
+        status_id = None
+        sql = '''SELECT * FROM status WHERE status = %s'''
+        bindvars = [status]
+        db.execute(sql, bindvars)
+        result = db.cursor.fetchall()[0]
+        if result:
+            status_id = result[0]
+        return status_id
+    def get_model_by_id(self, db, model_id):
+        model = None
+        sql = '''SELECT * FROM models WHERE id = %s'''
+        bindvars = [model_id]
+        db.execute(sql, bindvars)
+        result = db.cursor.fetchall()[0]
+        if result:
+            model = result[1]
+        return model
+    def get_class_by_id(self, db, class_id):
+        prediction = None
+        sql = '''SELECT * FROM classes WHERE id = %s'''
+        bindvars = [class_id]
+        db.execute(sql, bindvars)
+        result = db.cursor.fetchall()
+        if result:
+            prediction = result[0][1]
+        return prediction
+    def get_class_by_name(self, db, pclass):
+        class_id = None
+        sql = '''SELECT * FROM classes WHERE class = %s'''
+        bindvars = [pclass]
+        db.execute(sql, bindvars)
+        result = db.cursor.fetchall()
+        if result:
+            class_id = result[0][0]
+        return class_id
+    def add_document(self, db, params):
+        sql = '''INSERT INTO documents (title, description, signature_txt, signature_img, created, modified, deleted)
+        VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id'''
+        bindvars = [params[0], params[1], params[2], params[3], params[4], params[5], params[6]]
+        db.execute(sql, bindvars, True)
+        document_id = db.cursor.fetchone()[0]
+        return document_id
+    def add_document_details(self, db, params):
+        sql = '''INSERT INTO document_details (document_id, examiner_id, owner_id, status_id, model_id, class_id, score1, score2)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)'''
+        bindvars = [params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7]]
+        db.execute(sql, bindvars, True)
+    def update_document(self, db, params):
+        pass
+    def update_status(self, db, params):
+        sql = '''UPDATE document_details SET status_id = %s WHERE id = %s'''
+        bindvars = [params[2], params[1]]
+        db.execute(sql, bindvars, True)
+        sql = '''UPDATE documents SET modified = %s WHERE id = %s'''
+        bindvars = [params[3], params[0]]
+        db.execute(sql, bindvars, True)
+    def delete_document(self, db, id):
+        pass
