@@ -101,6 +101,36 @@ class Document():
         model = tf.keras.models.load_model('cnn/' + model_name)
         prediction = model.predict(img)[0]
         return prediction
+    def get_dashboard_items(self, db):
+        total_predictions = None
+        verified_signatures = None
+        genuine_signatures = None
+        forged_signatures = None
+        sql = '''SELECT COUNT(*) FROM document_details'''
+        db.execute(sql)
+        result = db.cursor.fetchall()[0]
+        if result:
+            total_predictions = result[0]
+        sql = '''SELECT COUNT(*) FROM document_details WHERE status_id = %s'''
+        bindvars = [3]
+        db.execute(sql, bindvars)
+        result = db.cursor.fetchall()[0]
+        if result:
+            verified_signatures = result[0]
+        sql = '''SELECT COUNT(*) FROM document_details WHERE class_id = %s'''
+        bindvars = [2]
+        db.execute(sql, bindvars)
+        result = db.cursor.fetchall()[0]
+        if result:
+            genuine_signatures = result[0]
+        sql = '''SELECT COUNT(*) FROM document_details WHERE class_id != %s'''
+        bindvars = [2]
+        db.execute(sql, bindvars)
+        result = db.cursor.fetchall()[0]
+        if result:
+            forged_signatures = result[0]
+        items = [total_predictions, verified_signatures, genuine_signatures, forged_signatures]
+        return items
     def get_all_documents(self, db):
         sql = '''SELECT * FROM documents WHERE deleted = %s'''
         bindvars = [False]

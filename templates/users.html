@@ -3,14 +3,14 @@
 <div class="users">
     <div class="content-title">
         <h1>{{ title }}</h1>
-        {% if title == 'Manage Users' %}
+        {% if title == 'Users' %}
         <a href="{{ url_for('users', param = 'add_user') }}"><i class="fas fa-user-plus"></i></a>
         {% else %}
         <a href="{{ url_for('users', param = 'manage_users') }}"><i class="fas fa-chevron-left"></i> Back</a>
         {% endif %}
     </div>
     <hr/>
-    {% if not title or title == 'Manage Users' %}
+    {% if not title or title == 'Users' %}
     <div class="search">
         <form action="{{ url_for('users', param = 'search_user') }}" method="POST">
             <label for="nid">NID</label>

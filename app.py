@@ -1,4 +1,5 @@
 import os
+from turtle import title
 import uuid
 import hashlib
 from flask import Flask, redirect, render_template, url_for, request, session
@@ -21,9 +22,9 @@ nav = Nav(app)
 nav.register_element('main_nav',Navbar('nav',
     View('Dashboard', 'dashboard'),
     View('Documents', 'documents'),
+    View('Models', 'models'),
     View('Users', 'users'),
-    View('Settings', 'dashboard'),
-    View('Profile', 'dashboard'),
+    View('Settings', 'settings'),
     View('Logout', 'logout')
 ))
 
@@ -36,13 +37,15 @@ def dashboard():
     if not 'user' in session:
         return redirect(url_for('login'))
     else:
-        return render_template('dashboard.html')
+        params = Document().get_dashboard_items(db)
+        # params = [5273, 3518, 3854, 1529]
+        return render_template('dashboard.html', params = params)
 
 @app.route('/login',  methods = ['GET', 'POST'])
 def login():
     if request.method == 'GET':
         if not 'user' in session:
-            return render_template('login.html')
+            return render_template('login.html', title = 'Login')
         else:
             return redirect(url_for('dashboard'))
     if request.method == 'POST':
@@ -75,7 +78,7 @@ def users():
     if request.method == 'GET':
         if not request.args.get('param') or request.args.get('param') == 'manage_users':
             users = User().get_all_users(db)
-            return render_template('users.html', title = 'Manage Users', users = users)
+            return render_template('users.html', title = 'Users', users = users)
         elif request.args.get('param') == 'add_user':
             return render_template('users.html', title = 'Add User')
         elif request.args.get('param') == 'view_user':
@@ -90,7 +93,7 @@ def users():
             id = request.args.get('id')
             user = User().delete_user(db, id)
             users = User().get_all_users(db)
-            return render_template('users.html', title = 'Manage Users', users = users)
+            return render_template('users.html', title = 'Users', users = users)
     elif request.method == 'POST':
         if request.args.get('param') == 'add_user':
             empty = False
@@ -127,7 +130,7 @@ def users():
             else:
                 User().add_user(db, params)
                 users = User().get_all_users(db)
-                return render_template('users.html', title = 'Manage Users', users = users)
+                return render_template('users.html', title = 'Users', users = users)
         elif request.args.get('param') == 'edit_user':
             empty = False
             unmatch = False
@@ -168,7 +171,15 @@ def users():
                     users = User().get_all_users(db)
                 else:
                     users = User().get_users_by_nid(db, nid)
-                return render_template('users.html', title = 'Manage Users', users = users)
+                return render_template('users.html', title = 'Users', users = users)
+
+@app.route('/models', methods = ['GET', 'POST'])
+def models():
+    if request.method == 'GET':
+        if not request.args.get('param') or request.args.get('param') == 'manage_models':
+            return render_template('models.html', title = 'Models')
+    if request.method == 'POST':
+        pass
 
 @app.route('/documents', methods = ['GET', 'POST'])
 def documents():
@@ -185,7 +196,7 @@ def documents():
                 status = Document().get_status_by_id(db, status_id)
                 param = [document_id, title, status, date]
                 params.append(param)
-            return render_template('documents.html', title = 'Manage Documents', params = params)
+            return render_template('documents.html', title = 'Documents', params = params)
         elif request.args.get('param') == 'add_document':
             return render_template('documents.html', title = 'Add Document')
         elif request.args.get('param') == 'view_document':
@@ -276,6 +287,14 @@ def documents():
                     return redirect(url_for('documents', param = 'view_document', document_id = document_id))
         if request.args.get('param') == 'edit_document':
             pass
+
+@app.route('/settings', methods = ['GET', 'POST'])
+def settings():
+    if request.method == 'GET':
+        if not request.args.get('param') or request.args.get('param') == 'manage_settings':
+            return render_template('settings.html', title = 'Settings')
+    if request.method == 'POST':
+        pass
 
 ##############################################################################################################################
 

@@ -3,14 +3,14 @@
 <div class="documents">
     <div class="content-title">
         <h1>{{ title }}</h1>
-        {% if title == 'Manage Documents' %}
+        {% if title == 'Documents' %}
         <a href="{{ url_for('documents', param = 'add_document') }}"><i class="fas fa-plus"></i></a>
         {% else %}
         <a href="{{ url_for('documents', param = 'manage_documents') }}"><i class="fas fa-chevron-left"></i> Back</a>
         {% endif %}
     </div>
     <hr/>
-    {% if title == 'Manage Documents' %}
+    {% if title == 'Documents' %}
     <table>
         <tr>
             <th>No.</th>
