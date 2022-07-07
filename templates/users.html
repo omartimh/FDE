@@ -54,7 +54,7 @@
             </td>
             <td>
                 <span>
-                    {% if session['user'][0] == user[0] %}
+                    {% if session['user'][0] == user[0] or user[0] == 1 %}
                     <a style="color: #9E9E9E;"><i class="fas fa-eye"></i></a>
                     <a style="color: #9E9E9E;"><i class="fas fa-edit"></i></a>
                     <a style="color: #9E9E9E;"><i class="fas fa-trash"></i></a>

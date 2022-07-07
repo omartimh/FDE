@@ -26,6 +26,19 @@ nav.register_element('main_nav',Navbar('nav',
     View('Settings', 'settings'),
     View('Logout', 'logout')
 ))
+nav.register_element('admin_nav',Navbar('nav',
+    View('Dashboard', 'dashboard'),
+    View('Models', 'models'),
+    View('Users', 'users'),
+    View('Settings', 'settings'),
+    View('Logout', 'logout')
+))
+nav.register_element('examiner_nav',Navbar('nav',
+    View('Dashboard', 'dashboard'),
+    View('Documents', 'documents'),
+    View('Models', 'models'),
+    View('Logout', 'logout')
+))
 
 fa = FontAwesome(app)
 
@@ -188,14 +201,19 @@ def documents():
             params = []
             for document in documents:
                 document_id = document[0]
-                details = Document().get_document_details(db, document_id)
-                title = document[1]
-                status_id = details[4]
-                date = str(document[5]).split(' ')[0]
-                status = Document().get_status_by_id(db, status_id)
-                param = [document_id, title, status, date]
-                params.append(param)
-            return render_template('documents.html', title = 'Documents', params = params)
+                examiner_id = session['user'][0]
+                details = Document().get_document_details(db, document_id, examiner_id)
+                if details:
+                    title = document[1]
+                    status_id = details[4]
+                    date = str(document[5]).split(' ')[0]
+                    status = Document().get_status_by_id(db, status_id)
+                    param = [document_id, title, status, date]
+                    params.append(param)
+            if not params:    
+                return render_template('documents.html', title = 'Documents')
+            else:
+                return render_template('documents.html', title = 'Documents', params = params)
         elif request.args.get('param') == 'add_document':
             return render_template('documents.html', title = 'Add Document')
         elif request.args.get('param') == 'view_document':
@@ -207,9 +225,9 @@ def documents():
             signature_img = document[4]
             created = str(document[5]).split(' ')[0]
             modified = str(document[6]).split(' ')[0]
-            details = Document().get_document_details(db, document_id)
+            examiner_id = session['user'][0]
+            details = Document().get_document_details(db, document_id, examiner_id)
             details_id = details[0]
-            examiner_id = details[2]
             owner_id = details[3]
             user = User().get_user_by_id(db, owner_id)
             nid = user[2]
@@ -240,6 +258,7 @@ def documents():
             empty = False
             title = request.form.get('title')
             description = request.form.get('description')
+            # validate strings
             signature_txt = request.form.get('signature_txt')
             nid = request.form.get('nid')
             model_id = request.form.get('model')

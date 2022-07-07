@@ -15,7 +15,9 @@ nav_btn.addEventListener('click', () => {
 
 let btns = document.querySelectorAll('nav ul li a')
 btn = btns[btns.length - 1]
-btn.innerHTML = btn.innerHTML + ' <i class="fas fa-sign-out-alt" style="position: relative; top: 1px;"></i>'
+if (btn) {
+    btn.innerHTML = btn.innerHTML + ' <i class="fas fa-sign-out-alt" style="position: relative; top: 1px;"></i>'
+}
 
 let nidx = '12345'
 let nid = document.querySelector('.documents #nid')
@@ -23,12 +25,12 @@ let check = document.querySelector('.documents #check')
 if (nid) {
     nid.addEventListener('change', (event) => {
         nid.textContent = `${event.target.value}`
-        if (nid.textContent != nidx) {
+        if (nid.textContent == nidx) {
             check.style.display = 'block'
             check.innerHTML = '<i class="fas fa-times-circle"></i>'
             check.classList.remove('good')
             check.classList.add('bad')
-        } else if (nid.textContent == nidx) {
+        } else if (nid.textContent != nidx) {
             check.style.display = 'block'
             check.innerHTML = '<i class="fas fa-check-circle"></i>'
             check.classList.remove('bad')

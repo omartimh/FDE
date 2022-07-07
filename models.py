@@ -137,11 +137,14 @@ class Document():
         db.execute(sql, bindvars)
         documents = db.cursor.fetchall()
         return documents
-    def get_document_details(self, db, document_id):
-        sql = '''SELECT * FROM document_details WHERE document_id = %s'''
-        bindvars = [document_id]
+    def get_document_details(self, db, document_id, examiner_id):
+        details = None
+        sql = '''SELECT * FROM document_details WHERE document_id = %s and examiner_id = %s'''
+        bindvars = [document_id, examiner_id]
         db.execute(sql, bindvars)
-        details = db.cursor.fetchall()[0]
+        result = db.cursor.fetchall()
+        if result:
+            details = result[0]
         return details
     def get_document_by_id(self, db, document_id):
         sql = '''SELECT * FROM documents WHERE id = %s'''

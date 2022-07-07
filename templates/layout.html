@@ -18,7 +18,15 @@
 <body>
     <div class="container">
         <div class="title"><h1 class="title-txt"><img src="static/img/logo.png" alt="logo" width="25px" height="25px" style="position:relative; top: 1px; border-radius: 50%; background: #E0E0E0;"> FDE</h1><button id="nav-btn" class="title-btn"><i class="fas fa-bars"></i></button></div>
-        <div class="nav">{{ nav.main_nav.render() }}</div>
+        {% if session['user'] %}
+            {% if session['user'][0] == 1 %}
+            <div class="nav">{{ nav.main_nav.render() }}</div>
+            {% elif session['user'][1] == 1 %}
+            <div class="nav">{{ nav.admin_nav.render() }}</div>
+            {% elif session['user'][1] == 2 %}
+            <div class="nav">{{ nav.examiner_nav.render() }}</div>
+            {% endif %}
+        {% endif %}
         <div class="content">{% block content %}<h1 class="content-title">{{ title }}</h1>{% endblock %}</div>
         <div class="footer"></div>
     </div>

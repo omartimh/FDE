@@ -11,24 +11,33 @@
     </div>
     <hr/>
     {% if title == 'Documents' %}
-    <table>
-        <tr>
-            <th>No.</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th></th>
-        </tr>
-        {% for param in params %}
-        <tr>
-            <td>{{ param[0] }}</td>
-            <td>{{ param[1] }}</td>
-            <td>{{ param[2] }}</td>
-            <td>{{ param[3] }}</td>
-            <td><a href="{{ url_for('documents', param = 'view_document', document_id = param[0]) }}"><i class="fas fa-file-signature"></i></a></td>
-        </tr>
-        {% endfor %}
-    </table>
+        {% if not params %}
+        <div class="empty-page">
+            <h1>{{ details }}</h1>
+            <img src="static/img/empty-page.svg" alt="empty" width="100" height="100">
+            <h3>No Documents Found!</h3>
+            <p>Start by adding your first document.</p>
+        </div>
+        {% else %}
+        <table>
+            <tr>
+                <th>No.</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+            {% for param in params %}
+            <tr>
+                <td>{{ param[0] }}</td>
+                <td>{{ param[1] }}</td>
+                <td>{{ param[2] }}</td>
+                <td>{{ param[3] }}</td>
+                <td><a href="{{ url_for('documents', param = 'view_document', document_id = param[0]) }}"><i class="fas fa-file-signature"></i></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
     {% elif title == 'Add Document' %}
     {% if error %}
     <p class="form-error">{{ error }}</p>
@@ -78,7 +87,7 @@
         <span>
             <div style="width: 100%;">
                 <label for="signature_txt">Signature Text <i style="color: #D50000;">*</i></label>
-                <input id="signature_txt" name="signature_txt" type="text">
+                <input id="signature_txt" name="signature_txt" type="text" autocomplete="off">
             </div>
         </span>
         <button type="submit">Submit</button>

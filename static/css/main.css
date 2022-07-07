@@ -323,6 +323,22 @@ nav ul li:last-child a {
     transition: ease-out 0.1s;
 }
 
+.empty-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 35%;
+} .empty-page img {
+    margin-bottom: 1em;
+    width: 150px;
+    height: 150px;
+} .empty-page h3 {
+    font-size: 1.3rem;
+    color: #212121;
+} .empty-page p {
+    color: #9E9E9E;
+}
+
 .documents {
     margin: auto;
     max-width: 500px;
