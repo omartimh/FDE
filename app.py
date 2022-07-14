@@ -241,7 +241,8 @@ def documents():
             score2 = details[8]
             params = [document_id, created, modified, document_title, document_description, nid, owner_id,
             signature_img, signature_txt, model, prediction, score1, score2, status, details_id]
-            return render_template('documents.html', title = 'View Document', params = params)
+            types = [0.16853828028242, 1.05136502943546, 0.375768846923704, 0.205713452722789, 0.149466313316782]
+            return render_template('documents.html', title = 'View Document', params = params, types = types)
         elif request.args.get('param') == 'edit_documents':
             return render_template('documents.html', title = 'Edit Document')
         elif request.args.get('param') == 'edit_status':

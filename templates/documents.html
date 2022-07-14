@@ -162,6 +162,37 @@
                 </table>
             </div>
         </span>
+        <!-- ######################################### -->
+        {% if params[10] != 'Genuine' %}
+        <span>
+            <div style="width: 100%;">
+                <label for="details" style="font-weight: 400;">Possible Forgery Techniques Used</label>
+                <table id="table-details">
+                    <tr style="font-size: 0.8rem;">
+                        <th>Pen Lifts</th>
+                        <td>{{ types[0] }}</td>
+                    </tr>
+                    <tr style="font-size: 0.8rem;">
+                        <th>Pen Pressure</th>
+                        <td>{{ types[1] }}</td>
+                    </tr>
+                    <tr style="font-size: 0.8rem;">
+                        <th>Retouching</th>
+                        <td>{{ types[2] }}</td>
+                    </tr>
+                    <tr style="font-size: 0.8rem;">
+                        <th>Letter Proportions</th>
+                        <td>{{ types[3] }}</td>
+                    </tr>
+                    <tr style="font-size: 0.8rem;">
+                        <th>Shaky Handwriting</th>
+                        <td>{{ types[4] }}</td>
+                    </tr>
+                </table>
+            </div>
+        </span>
+        {% endif %}
+        <!-- ######################################### -->
         <span>
             <div style="width: 60%;">
                 <label for="status">Status</label>
